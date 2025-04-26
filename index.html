@@ -28,12 +28,15 @@
       display: flex;
       background-color: #f0f0f0;
       border-bottom: 1px solid #ccc;
+
+      overflow-x: auto; /* разрешаем горизонтальную прокрутку */
+      -webkit-overflow-scrolling: touch; /* плавный скроллинг на iOS */
     }
 
     .tab {
-      flex: 1;
+      flex: 0 0 auto; /* табы не сжимаются */
       text-align: center;
-      padding: 15px;
+      padding: 15px 20px;
       cursor: pointer;
       font-weight: bold;
       transition: background 0.3s;

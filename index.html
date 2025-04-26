@@ -5,54 +5,102 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Запись на встречу</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
+    html, body {
       margin: 0;
       padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      height: 100%;
+      font-family: Arial, sans-serif;
       background-color: #f5f5f5;
+      overflow: hidden; /* чтобы не было двойного скролла */
     }
-    .cal-wrapper {
-      width: 100%;
-      max-width: 800px;
-      height: 600px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      background: white;
-      border-radius: 12px;
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      background: #fff;
+      border-radius: 0;
+      box-shadow: none;
+      max-width: none;
+    }
+
+    .tabs {
+      display: flex;
+      background-color: #f0f0f0;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 15px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+      color: hsla(220, 6%, 25%, 1);
+    }
+
+    .tab.active {
+      background-color: #292929;
+      border-bottom: 2px solid #ffffff;
+      color: #ffffff;
+    }
+
+    .tab-content {
+      flex-grow: 1;
+      display: none;
+      height: 0;
       overflow: hidden;
+    }
+
+    .tab-content.active {
+      display: block;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      overflow: auto;
     }
   </style>
 </head>
 <body>
 
-  <div class="cal-wrapper">
-    <!-- Cal inline embed code begins -->
-    <div style="width:100%;overflow:scroll" id="my-cal-inline"></div>
-    <div style="width:100%;overflow:scroll" id="my-cal-inline2"></div>
-    <script type="text/javascript">
-      (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-      Cal("init", "book", {origin:"https://cal.com"});
-
-      Cal.ns.book("inline", {
-        elementOrSelector:"#my-cal-inline",
-        config: {"layout":"month_view"},
-        calLink: "relacasa.bighall/book",
-      });
-
-      Cal.ns.book("inline", {
-        elementOrSelector:"#my-cal-inline2",
-        config: {"layout":"month_view"},
-        calLink: "relacasa.bighall/book",
-      });
-
-      Cal.ns.book("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
-    </script>
-    <!-- Cal inline embed code ends -->
+<div class="container">
+  <div class="tabs">
+    <div class="tab" data-tab="bighall">Большой зал</div>
+    <div class="tab" data-tab="smallhall">Малый зал</div>
+    <div class="tab active" data-tab="smallhall">Левый кабинет</div>
+    <div class="tab" data-tab="smallhall">Правый кабинет</div>
+    <div class="tab" data-tab="smallhall">Верхний кабинет</div>
   </div>
+
+  <div class="tab-content active" id="bighall">
+    <iframe src="https://cal.com/relacasa.bighall/book?theme=light" scrolling="auto"></iframe>
+  </div>
+
+  <div class="tab-content" id="smallhall">
+    <iframe src="https://cal.com/relacasa.smallhall/book?theme=light" scrolling="auto"></iframe>
+  </div>
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  const contents = document.querySelectorAll('.tab-content');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      contents.forEach(c => c.classList.remove('active'));
+
+      tab.classList.add('active');
+      document.getElementById(tab.getAttribute('data-tab')).classList.add('active');
+    });
+  });
+</script>
 
 </body>
 </html>
-

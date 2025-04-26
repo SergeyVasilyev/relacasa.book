@@ -68,15 +68,23 @@
       border: none;
       overflow: auto;
     }
+
+    @media (max-width: 768px) {
+      .tab {
+        flex: 0 0 80px; /* Меньше ширина таба на мобильных */
+        max-width: 80px;
+        padding: 8px;
+      }
+    }
   </style>
 </head>
 <body>
 
 <div class="container">
   <div class="tabs">
-    <div class="tab" data-tab="bighall">Большой зал</div>
+    <div class="tab active" data-tab="bighall">Большой зал</div>
     <div class="tab" data-tab="smallhall">Малый зал</div>
-    <div class="tab active" data-tab="smallhall">Левый кабинет</div>
+    <div class="tab" data-tab="smallhall">Левый кабинет</div>
     <div class="tab" data-tab="smallhall">Правый кабинет</div>
     <div class="tab" data-tab="smallhall">Верхний кабинет</div>
   </div>
